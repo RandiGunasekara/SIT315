@@ -1,0 +1,39 @@
+// C++ code 
+//Defining pin numbers for LED and the sensors 
+const int sensorPin1 = 2; 
+const int sensorPin2 = 3; 
+const int ledPin = LED_BUILTIN; 
+int sensorState1 = 0; 
+int sensorState2 = 0; 
+void setup() 
+{ 
+//Setting sensor pin 2 as an input 
+pinMode(sensorPin1, INPUT); 
+//Setting sensor pin 3 as an input 
+pinMode(sensorPin2, INPUT); 
+//Setting LED pin as an output 
+pinMode(ledPin, OUTPUT); 
+Serial.begin(9600); 
+// Attaching interrupt to pin 2 and 3, triggered on CHANGE 
+attachInterrupt(digitalPinToInterrupt(2), sensorISR, CHANGE); 
+attachInterrupt(digitalPinToInterrupt(3), sensorISR, CHANGE); 
+} 
+void loop() 
+{ 
+delay(10); // Delay to improve performance 
+} 
+void sensorISR() 
+{ 
+//reading the states of the sensors 
+sensorState1 = digitalRead(sensorPin1); 
+sensorState2 = digitalRead(sensorPin2); 
+//checking if the sensor pi9ns are HIGH. if it is, set the LED on. 
+if (sensorState1 || sensorState2 == HIGH) { 
+digitalWrite(ledPin, HIGH); 
+Serial.println("Sensor activated, LED On!"); 
+} else { 
+digitalWrite(ledPin, LOW); 
+Serial.println("LED Off!"); 
+} 
+delay(10); // Delay to increase the performance 
+}
